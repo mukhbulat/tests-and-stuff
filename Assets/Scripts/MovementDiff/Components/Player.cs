@@ -41,6 +41,14 @@ namespace MovementDiff.Components
             _movement.canceled += MovementOnCanceled;
         }
 
+        private void OnDisable()
+        {
+            _movement.started -= MovementOnStarted;
+            _movement.canceled -= MovementOnCanceled;
+            _isMovementHeld = false;
+            StopCoroutine(Movement());
+        }
+
         private void MovementOnCanceled(InputAction.CallbackContext obj)
         {
             _isMovementHeld = false;
