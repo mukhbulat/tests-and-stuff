@@ -14,7 +14,7 @@ namespace MovementDiff.Components
         // implementing components instead of interfaces, add scriptable object with all movables
         // that would be interacted(same as using components, not interfaces) and search
         // by tag/gameObject. Also I can use abstract class inheriting monoBehaviour. For this test - search by tag. 
-        private List<IMovable> _movables = new List<IMovable>();
+        private List<IHorizontalMovable> _movables = new List<IHorizontalMovable>();
 
         private PlayerInput _playerInput;
         private InputAction _movement;
@@ -27,7 +27,7 @@ namespace MovementDiff.Components
             var movablesByTag = GameObject.FindGameObjectsWithTag("Player");
             foreach (var movableObject in movablesByTag)
             {
-                var movableComponent = movableObject.GetComponent<IMovable>();
+                var movableComponent = movableObject.GetComponent<IHorizontalMovable>();
                 if (movableComponent != null)
                 {
                     _movables.Add(movableComponent);

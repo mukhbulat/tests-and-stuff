@@ -2,7 +2,7 @@
 
 namespace MovementDiff.Interfaces
 {
-    public interface IMovable
+    public interface IHorizontalMovable
     {
         public void Move(Vector2 direction);
     }
