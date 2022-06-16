@@ -14,23 +14,32 @@ namespace MovementDiff.Components
         // implementing components instead of interfaces, add scriptable object with all movables
         // that would be interacted(same as using components, not interfaces) and search
         // by tag/gameObject. Also I can use abstract class inheriting monoBehaviour. For this test - search by tag. 
-        private List<IHorizontalMovable> _movables = new List<IHorizontalMovable>();
+        private List<IHorizontalMovable> _horizontalMovablePlayers = new List<IHorizontalMovable>();
+        private List<IVerticalMovable> _verticalMovablePlayers = new List<IVerticalMovable>();
 
         private PlayerInput _playerInput;
         private InputAction _movement;
+        private InputAction _jump;
         private bool _isMovementHeld;
 
         private void Awake()
         {
             _playerInput = GetComponent<PlayerInput>();
             _movement = _playerInput.actions["Movement"];
-            var movablesByTag = GameObject.FindGameObjectsWithTag("Player");
-            foreach (var movableObject in movablesByTag)
+            _jump = _playerInput.actions["Jump"];
+            var playersByTag = GameObject.FindGameObjectsWithTag("Player");
+            foreach (var player in playersByTag)
             {
-                var movableComponent = movableObject.GetComponent<IHorizontalMovable>();
-                if (movableComponent != null)
+                var horMovableComponent = player.GetComponent<IHorizontalMovable>();
+                if (horMovableComponent != null)
                 {
-                    _movables.Add(movableComponent);
+                    _horizontalMovablePlayers.Add(horMovableComponent);
+                }
+
+                var verMovableComponent = player.GetComponent<IVerticalMovable>();
+                if (verMovableComponent != null)
+                {
+                    _verticalMovablePlayers.Add(verMovableComponent);
                 }
             }
         }
@@ -39,8 +48,9 @@ namespace MovementDiff.Components
         {
             _movement.started += MovementOnStarted;
             _movement.canceled += MovementOnCanceled;
+            _jump.started += JumpOnStarted;
         }
-
+        
         private void OnDisable()
         {
             _movement.started -= MovementOnStarted;
@@ -65,12 +75,20 @@ namespace MovementDiff.Components
             while (_isMovementHeld)
             {
                 var direction = _movement.ReadValue<Vector2>();
-                foreach (var movable in _movables)
+                foreach (var movable in _horizontalMovablePlayers)
                 {
                     movable.Move(direction);
                 }
 
                 yield return null;
+            }
+        }
+        
+        private void JumpOnStarted(InputAction.CallbackContext obj)
+        {
+            foreach (var movable in _verticalMovablePlayers)
+            {
+                movable.VerticalMove(1);
             }
         }
     }

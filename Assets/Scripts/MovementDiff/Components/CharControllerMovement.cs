@@ -5,16 +5,17 @@ using UnityEngine;
 namespace MovementDiff.Components
 {
     [RequireComponent(typeof(CharacterController))]
-    public class CharControllerMovement : MonoBehaviour, IHorizontalMovable
+    public class CharControllerMovement : MonoBehaviour, IHorizontalMovable, IVerticalMovable
     {
         [SerializeField] private float speed = 5;
         [SerializeField] private float gravity = 10;
+        [SerializeField] private float jumpHeight = 2;
+        [SerializeField] private bool grounded;
         
         private CharacterController _characterController;
-        private bool _grounded;
+        
         private float _verticalVelocity;
         
-
         private void Awake()
         {
             _characterController = GetComponent<CharacterController>();
@@ -29,8 +30,8 @@ namespace MovementDiff.Components
 
         private void Update()
         {
-            _grounded = _characterController.isGrounded;
-            if (_grounded)
+            grounded = _characterController.isGrounded;
+            if (grounded)
             {
                 _verticalVelocity = -gravity * Time.deltaTime;
             }
@@ -40,6 +41,16 @@ namespace MovementDiff.Components
             }
             
             _characterController.Move(_verticalVelocity * Vector3.up * Time.deltaTime);
+        }
+
+        public void VerticalMove(float verticalNormalizedVelocity)
+        {
+            // for CC version there will be only a jump thing.
+            if (verticalNormalizedVelocity <= 0) return;
+            if (grounded)
+            {
+                _verticalVelocity += Mathf.Sqrt(jumpHeight * gravity);
+            }
         }
     }
 }
