@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Dialogues.Data
 {
-    [Serializable]
-    public class DialogueLine
+    [CreateAssetMenu(menuName = "Dialogues/DialogueLine")]
+    public class DialogueLine : ScriptableObject
     {
         [SerializeField] private string line;
         [SerializeField] private List<DialogueLine> choices;
