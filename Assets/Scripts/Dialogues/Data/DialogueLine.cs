@@ -8,10 +8,12 @@ namespace Dialogues.Data
     public class DialogueLine : ScriptableObject
     {
         [SerializeField] private string line;
+        [SerializeField] private Speaker speaker;
         [SerializeField] private List<DialogueLine> choices;
         [SerializeField] private List<string> choicesLines;
 
         public string Line => line;
+        public Speaker Speaker => speaker;
         public Dictionary<DialogueLine, string> Choices
         {
             get
