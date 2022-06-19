@@ -1,31 +1,38 @@
 ﻿using System;
-using System.Collections;
-using Dialogues.Controllers;
+using Dialogues.Data;
 using UnityEngine;
 
 namespace Dialogues.PlayerInteraction
 {
     public class HasDialogue : MonoBehaviour, IInteractable
     {
-        [SerializeField] private DialogueExplorer dialogueExplorer;
-
-        private IEnumerator Start()
-        {
-            yield return null;
-            dialogueExplorer = new DialogueExplorer();
-            dialogueExplorer.LoadInstance();
-            Debug.Log("Dialogue explorer created");
-            Debug.Log(dialogueExplorer.GetFirstLine().Line);
-        }
-
+        public event Action<bool, HasDialogue> DialogueEnabled;
+        public event Action LineChanged;
+        
+        [SerializeField] private DialogueLine startingLine;
+        [SerializeField] private bool isUnique = false;
+        public DialogueLine CurrentLine { get; private set; }
+        public bool IsUnique => isUnique;
+        
         public void Interact()
         {
-            throw new System.NotImplementedException();
+            CurrentLine = startingLine;
+            StartDialogue();
         }
 
         private void StartDialogue()
         {
-            
+            DialogueEnabled?.Invoke(true, this);
+            LineChanged?.Invoke();
+        }
+        public void ChangeLine(DialogueLine choice)
+        {
+            if (choice == null)
+            {
+                DialogueEnabled?.Invoke(false, this);
+            }
+            CurrentLine = choice;
+            LineChanged?.Invoke();
         }
     }
 }
