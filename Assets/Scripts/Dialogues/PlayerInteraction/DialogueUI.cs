@@ -39,6 +39,13 @@ namespace Dialogues.PlayerInteraction
                     _buttonTexts.Add(tmp);
                 }
             }
+            
+            gameBehaviour.NextLineRequested += OnNextLineRequested;
+        }
+
+        private void OnNextLineRequested()
+        {
+            AnyButtonClicked();
         }
 
         private void OnDisable()
@@ -48,6 +55,8 @@ namespace Dialogues.PlayerInteraction
                 dialogueCharacter.DialogueEnabled -= OnDialogueEnabled;
                 dialogueCharacter.LineChanged -= OnDialogueLineChanged;
             }
+            
+            gameBehaviour.NextLineRequested -= OnNextLineRequested;
         }
 
         private void OnDialogueLineChanged()
@@ -57,12 +66,12 @@ namespace Dialogues.PlayerInteraction
             CreateChoices();
         }
 
-        public void ChoiceButtonClicked(int choiceNum)
+        private void ChoiceButtonClicked(int choiceNum)
         {
             _currentDialogue.ChangeLine(_currentChoices[choiceNum]);
         }
 
-        public void AnyButtonClicked()
+        private void AnyButtonClicked()
         {
             if (_currentChoices.Count == 1)
             {

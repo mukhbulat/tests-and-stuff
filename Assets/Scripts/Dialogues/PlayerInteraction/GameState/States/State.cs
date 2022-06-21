@@ -22,5 +22,10 @@ namespace Dialogues.PlayerInteraction.GameState.States
         {
             CurrentCanvas.enabled = false;
         }
+
+        public virtual void ActionOnClick()
+        {
+            
+        }
     }
 }

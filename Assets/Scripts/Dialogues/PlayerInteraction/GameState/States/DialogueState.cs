@@ -18,5 +18,11 @@ namespace Dialogues.PlayerInteraction.GameState.States
         {
             base.Exit();
         }
+
+        public override void ActionOnClick()
+        {
+            base.ActionOnClick();
+            GameBehaviour.NextLine();
+        }
     }
 }
