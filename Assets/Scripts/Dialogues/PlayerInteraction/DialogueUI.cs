@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Dialogues.Data;
 using Dialogues.PlayerInteraction.GameState;
 using TMPro;
@@ -38,9 +37,10 @@ namespace Dialogues.PlayerInteraction
                 {
                     _buttonTexts.Add(tmp);
                 }
+
+                button.gameObject.SetActive(false);
             }
             
-            gameBehaviour.NextLineRequested += OnNextLineRequested;
         }
 
         private void OnNextLineRequested()
@@ -56,7 +56,6 @@ namespace Dialogues.PlayerInteraction
                 dialogueCharacter.LineChanged -= OnDialogueLineChanged;
             }
             
-            gameBehaviour.NextLineRequested -= OnNextLineRequested;
         }
 
         private void OnDialogueLineChanged()
@@ -68,6 +67,11 @@ namespace Dialogues.PlayerInteraction
 
         private void ChoiceButtonClicked(int choiceNum)
         {
+            foreach (var button in buttons)
+            {
+                button.gameObject.SetActive(false);
+            }
+            Debug.Log($"{choiceNum} is clicked");
             _currentDialogue.ChangeLine(_currentChoices[choiceNum]);
         }
 
@@ -87,9 +91,19 @@ namespace Dialogues.PlayerInteraction
         {
             gameBehaviour.EnableDialogue(isActive);
             _currentDialogue = character;
+            if (!isActive && _currentDialogue.IsUnique)
+            {
+                _currentDialogue.DialogueEnabled -= OnDialogueEnabled;
+                _currentDialogue.LineChanged -= OnDialogueLineChanged;
+            }
             if (!isActive)
             {
                 _currentDialogue = null;
+                gameBehaviour.NextLineRequested -= OnNextLineRequested;
+            }
+            else
+            {
+                gameBehaviour.NextLineRequested += OnNextLineRequested;
             }
         }
 
@@ -115,9 +129,12 @@ namespace Dialogues.PlayerInteraction
                 foreach (var pair in choices)
                 {
                     _currentChoices.Add(pair.Key);
-                    buttons[i].enabled = true;
+                    buttons[i].gameObject.SetActive(true);
                     _buttonTexts[i].text = pair.Value;
-                    buttons[i].onClick.AddListener(() => ChoiceButtonClicked(i));
+                    var choiceNum = i;
+                    buttons[i].onClick.AddListener(() => ChoiceButtonClicked(choiceNum));
+                    Debug.Log($"{pair.Value} for {i}");
+                    i += 1;
                 }
             }
         }
