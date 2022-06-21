@@ -111,5 +111,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8552e9740c645319ae7ef9b3e2b7c6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueExplorer:
-    startingLine: {fileID: 11400000, guid: ff6d6322f92782847a1c28955d1b6345, type: 2}
+  startingLine: {fileID: 11400000, guid: ff6d6322f92782847a1c28955d1b6345, type: 2}
+  isUnique: 0

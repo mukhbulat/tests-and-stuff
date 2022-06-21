@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Dialogues.Data;
+using Dialogues.PlayerInteraction.GameState;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,15 +13,14 @@ namespace Dialogues.PlayerInteraction
         // There are few ways to do this, I'll use just a list filled in inspector.
         [SerializeField] private List<HasDialogue> charactersWithDialogue;
         
-        [SerializeField] private Canvas dialogueCanvas;
         [SerializeField] private TextMeshProUGUI speakerText;
         [SerializeField] private TextMeshProUGUI lineText;
         [SerializeField] private List<Button> buttons;
-       
+        [SerializeField] private GameBehaviour gameBehaviour;
 
         private HasDialogue _currentDialogue;
         private List<DialogueLine> _currentChoices;
-        
+        private List<TextMeshProUGUI> _buttonTexts;
 
         private void OnEnable()
         {
@@ -28,6 +28,16 @@ namespace Dialogues.PlayerInteraction
             {
                 dialogueCharacter.DialogueEnabled += OnDialogueEnabled;
                 dialogueCharacter.LineChanged += OnDialogueLineChanged;
+            }
+
+            _buttonTexts = new List<TextMeshProUGUI>(buttons.Count);
+            foreach (var button in buttons)
+            {
+                var tmp = button.GetComponentInChildren<TextMeshProUGUI>();
+                if (tmp != null)
+                {
+                    _buttonTexts.Add(tmp);
+                }
             }
         }
 
@@ -66,7 +76,7 @@ namespace Dialogues.PlayerInteraction
 
         private void OnDialogueEnabled(bool isActive, HasDialogue character)
         {
-            dialogueCanvas.enabled = isActive;
+            gameBehaviour.EnableDialogue(isActive);
             _currentDialogue = character;
             if (!isActive)
             {
@@ -81,6 +91,14 @@ namespace Dialogues.PlayerInteraction
             {
                 _currentChoices = new List<DialogueLine>(0);
             }
+            else if (choices.Count == 1)
+            {
+                _currentChoices = new List<DialogueLine>(1);
+                foreach (var pair in choices)
+                {
+                    _currentChoices.Add(pair.Key);
+                }
+            }
             else
             {
                 _currentChoices = new List<DialogueLine>(choices.Count);
@@ -89,6 +107,7 @@ namespace Dialogues.PlayerInteraction
                 {
                     _currentChoices.Add(pair.Key);
                     buttons[i].enabled = true;
+                    _buttonTexts[i].text = pair.Value;
                     buttons[i].onClick.AddListener(() => ChoiceButtonClicked(i));
                 }
             }
