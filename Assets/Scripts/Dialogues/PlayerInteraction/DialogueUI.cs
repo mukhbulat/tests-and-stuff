@@ -3,6 +3,7 @@ using Dialogues.Data;
 using Dialogues.PlayerInteraction.GameState;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Dialogues.PlayerInteraction
@@ -71,7 +72,6 @@ namespace Dialogues.PlayerInteraction
             {
                 button.gameObject.SetActive(false);
             }
-            Debug.Log($"{choiceNum} is clicked");
             _currentDialogue.ChangeLine(_currentChoices[choiceNum]);
         }
 
@@ -124,6 +124,11 @@ namespace Dialogues.PlayerInteraction
             }
             else
             {
+                foreach (var button in buttons)
+                {
+                    button.onClick.RemoveAllListeners();
+                }
+                
                 _currentChoices = new List<DialogueLine>(choices.Count);
                 int i = 0;
                 foreach (var pair in choices)
@@ -132,12 +137,14 @@ namespace Dialogues.PlayerInteraction
                     buttons[i].gameObject.SetActive(true);
                     _buttonTexts[i].text = pair.Value;
                     var choiceNum = i;
+                    
+                    // idk why does this not work with method returning void, like in unity docs. The only
+                    // way I found is to use lambda expression and remove all listeners (127). 
                     buttons[i].onClick.AddListener(() => ChoiceButtonClicked(choiceNum));
-                    Debug.Log($"{pair.Value} for {i}");
+                    
                     i += 1;
                 }
             }
         }
-
     }
 }

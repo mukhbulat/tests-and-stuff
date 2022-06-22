@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33e39b21f4674bf2911fd299e6386bcf, type: 3}
+  m_Name: 3 Are we
+  m_EditorClassIdentifier: 
+  line: Are we in Oblivion NPC dialogue?
+  speaker: {fileID: 11400000, guid: 975a56189b0c8cc42a37e5f31a24e9fe, type: 2}
+  choices:
+  - {fileID: 11400000, guid: 4f755192cc69c9f4fb376c064f296df3, type: 2}
+  - {fileID: 11400000, guid: 951ebd0c560f31545b563299338b676c, type: 2}
+  - {fileID: 11400000, guid: 34b8aadddc1ae08469c38f841136b408, type: 2}
+  choicesLines:
+  - Ya!
+  - Nah!
+  - What?

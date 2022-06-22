@@ -30,6 +30,7 @@ namespace Dialogues.PlayerInteraction
             if (choice == null)
             {
                 DialogueEnabled?.Invoke(false, this);
+                return;
             }
             CurrentLine = choice;
             LineChanged?.Invoke();

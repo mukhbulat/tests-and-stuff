@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33e39b21f4674bf2911fd299e6386bcf, type: 3}
+  m_Name: 5 answer 2
+  m_EditorClassIdentifier: 
+  line: Oblivion is a 2013 American post-apocalyptic action-adventure film co-produced
+    and directed by Joseph Kosinski, and produced by Peter Chernin with screenplay
+    by Karl Gajdusek and Michael deBruyn, starring Tom Cruise in the main role alongside
+    Olga Kurylenko, Andrea Riseborough, Morgan Freeman and Nikolaj Coster-Waldau
+    in supporting roles.
+  speaker: {fileID: 11400000, guid: 975a56189b0c8cc42a37e5f31a24e9fe, type: 2}
+  choices:
+  - {fileID: 11400000, guid: 5fb205a21f070884fae81f1f902f686e, type: 2}
+  choicesLines: []
