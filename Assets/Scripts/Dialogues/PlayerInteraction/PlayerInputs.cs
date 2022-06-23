@@ -1,5 +1,4 @@
-﻿using System;
-using Dialogues.PlayerInteraction.GameState;
+﻿using Dialogues.PlayerInteraction.GameState;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

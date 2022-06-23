@@ -3,14 +3,15 @@ using Dialogues.Data;
 using Dialogues.PlayerInteraction.GameState;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Dialogues.PlayerInteraction
 {
     public class DialogueUI : MonoBehaviour
     {
-        // There are few ways to do this, I'll use just a list filled in inspector.
+        // Doesn't wrap words line by line.
+        
+        // There are few ways to add HasDialogue characters, I'll use just a list filled in inspector.
         [SerializeField] private List<HasDialogue> charactersWithDialogue;
         
         [SerializeField] private TextMeshProUGUI speakerText;
@@ -56,7 +57,10 @@ namespace Dialogues.PlayerInteraction
                 dialogueCharacter.DialogueEnabled -= OnDialogueEnabled;
                 dialogueCharacter.LineChanged -= OnDialogueLineChanged;
             }
-            
+            foreach (var button in buttons)
+            {
+                button.gameObject.SetActive(false);
+            }
         }
 
         private void OnDialogueLineChanged()
@@ -95,6 +99,7 @@ namespace Dialogues.PlayerInteraction
             {
                 _currentDialogue.DialogueEnabled -= OnDialogueEnabled;
                 _currentDialogue.LineChanged -= OnDialogueLineChanged;
+                charactersWithDialogue.Remove(_currentDialogue);
             }
             if (!isActive)
             {
