@@ -6,9 +6,10 @@ namespace SkyMan
 {
     public interface IPositionInterpreter
     {
-        public Vector3 CurrentPosition { get; }
+        public event Action NewPositionAdded;
+        public Vector3 CurrentTargetPosition { get; }
         public void AddNewPosition(Vector3 position);
-        public bool RemoveOldPosition();
+        public bool RemoveOldPosition(out Vector3 oldPosition);
         // Returns true, if positions remain in buffer.
     }
 }

@@ -6,23 +6,29 @@ namespace SkyMan
 {
     public class PositionInterpreter : IPositionInterpreter
     {
-        public Vector3 CurrentPosition => _positionBuffer.Peek();
+        public event Action NewPositionAdded;
+        public Vector3 CurrentTargetPosition => _positionBuffer.Peek();
         
         private Queue<Vector3> _positionBuffer = new Queue<Vector3>();
 
         public void AddNewPosition(Vector3 position)
         {
             _positionBuffer.Enqueue(position);
+            NewPositionAdded?.Invoke();
         }
 
-        public bool RemoveOldPosition()
+        public bool RemoveOldPosition(out Vector3 oldPosition)
         {
             if (_positionBuffer.Count == 0)
             {
+                oldPosition = new Vector3();
                 return false;
             }
-            _positionBuffer.Dequeue();
-            return _positionBuffer.Count != 0;
+            else
+            {
+                oldPosition = _positionBuffer.Dequeue();
+                return true;
+            }
         }
     }
 }
