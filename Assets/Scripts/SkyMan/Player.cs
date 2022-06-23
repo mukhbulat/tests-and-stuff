@@ -10,7 +10,7 @@ namespace SkyMan
         private PlayerInput _playerInput;
         private InputAction _click;
         private Camera _mainCamera;
-        public IInterpreter Interpreter { get; } = new Interpreter();
+        public IPositionInterpreter PositionInterpreter { get; } = new PositionInterpreter();
 
         private void Awake()
         {
@@ -32,7 +32,7 @@ namespace SkyMan
         private void ClickOnCanceled(InputAction.CallbackContext obj)
         {
             Debug.Log(_mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue()));
-            Interpreter.AddNewPosition(_mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue()));
+            PositionInterpreter.AddNewPosition(_mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue()));
         }
     }
 }
