@@ -36,7 +36,6 @@ namespace SkyMan
 
         private void OnNewPositionAdded()
         {
-            Debug.Log("New position Added");
             StartCoroutine(MovingToTarget());
         }
 

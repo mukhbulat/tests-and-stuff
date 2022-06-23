@@ -37,7 +37,6 @@ namespace SkyMan
             var ray = _mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
             if (Physics.Raycast(ray, out var raycastHit, _targetLayer))
             {
-                Debug.Log($"{raycastHit.point} point");
                 PositionInterpreter.AddNewPosition(raycastHit.point);
             }
         }
