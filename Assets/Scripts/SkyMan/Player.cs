@@ -5,12 +5,15 @@ using UnityEngine.InputSystem;
 namespace SkyMan
 {
     [RequireComponent(typeof(PlayerInput))]
+    [AddComponentMenu("SkyMan/Player")]
     public class Player : MonoBehaviour
     {
+        public IPositionInterpreter PositionInterpreter { get; } = new PositionInterpreter();
+        
+        private int _targetLayer = 1 << 6;
         private PlayerInput _playerInput;
         private InputAction _click;
         private Camera _mainCamera;
-        public IPositionInterpreter PositionInterpreter { get; } = new PositionInterpreter();
 
         private void Awake()
         {
@@ -31,8 +34,12 @@ namespace SkyMan
 
         private void ClickOnCanceled(InputAction.CallbackContext obj)
         {
-            Debug.Log(_mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue()));
-            PositionInterpreter.AddNewPosition(_mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue()));
+            var ray = _mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+            if (Physics.Raycast(ray, out var raycastHit, _targetLayer))
+            {
+                Debug.Log($"{raycastHit.point} point");
+                PositionInterpreter.AddNewPosition(raycastHit.point);
+            }
         }
     }
 }
