@@ -6,6 +6,6 @@ namespace SkyMan
     {
         public event Action<float> SpeedChanged;
 
-        public void ChangeSpeed(float speed);
+        public void ChangeSpeed(float speedAddition);
     }
 }

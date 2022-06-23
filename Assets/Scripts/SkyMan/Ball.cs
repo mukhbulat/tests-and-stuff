@@ -11,23 +11,27 @@ namespace SkyMan
         // Just a small number.
         [SerializeField] private float delta = 0.01f;
         private IPositionInterpreter _positionInterpreter;
+        private ISpeedInterpreter _speedInterpreter;
         private Vector3 _currentTarget;
         private float _currentSpeed;
 
         private void Awake()
         {
             _positionInterpreter = FindObjectOfType<Player>().PositionInterpreter;
+            _speedInterpreter = FindObjectOfType<SpeedSlider>().SpeedInterpreter;
             _currentSpeed = baseSpeed;
         }
 
         private void OnEnable()
         {
             _positionInterpreter.NewPositionAdded += OnNewPositionAdded;
+            _speedInterpreter.SpeedChanged += OnSpeedChanged;
         }
-
+        
         private void OnDisable()
         {
             _positionInterpreter.NewPositionAdded -= OnNewPositionAdded;
+            _speedInterpreter.SpeedChanged -= OnSpeedChanged;
         }
 
         private void OnNewPositionAdded()
@@ -52,6 +56,16 @@ namespace SkyMan
             }
 
             _positionInterpreter.NewPositionAdded += OnNewPositionAdded;
+        }
+        
+        
+        private void OnSpeedChanged(float speedAddition)
+        {
+            _currentSpeed = baseSpeed + speedAddition;
+            if (_currentSpeed < 0)
+            {
+                _currentSpeed = 0;
+            }
         }
     }
 }
