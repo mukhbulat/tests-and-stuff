@@ -17,9 +17,9 @@ namespace SkyMan
 
         private void Awake()
         {
+            _currentSpeed = baseSpeed;
             _positionInterpreter = FindObjectOfType<Player>().PositionInterpreter;
             _speedInterpreter = FindObjectOfType<SpeedSlider>().SpeedInterpreter;
-            _currentSpeed = baseSpeed;
         }
 
         private void OnEnable()
@@ -42,6 +42,9 @@ namespace SkyMan
         private IEnumerator MovingToTarget()
         {
             _positionInterpreter.NewPositionAdded -= OnNewPositionAdded;
+            
+            // Skipping a frame, because we remove the point from buffer, but we need to work with it in LineDraw. 
+            yield return null;
             
             while (_positionInterpreter.RemoveOldPosition(out _currentTarget))
             {
