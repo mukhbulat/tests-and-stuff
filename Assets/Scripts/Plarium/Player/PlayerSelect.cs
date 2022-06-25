@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 namespace Plarium.Player
 {
     [RequireComponent(typeof(PlayerInput))]
-    public class PlayerCharacter : MonoBehaviour
+    public class PlayerSelect : MonoBehaviour
     {
         public Team Affinity => affinity;
         public SelectionController SelectionController { get; private set; }
@@ -16,11 +16,14 @@ namespace Plarium.Player
         private Camera _mainCamera;
         private int _selectablesAndTerrainLayerMask = (1 << 7) + (1 << 8);
         private int _selectablesLayerMask = 1 << 7;
-        private bool _isMultipleSelectionActive;
+        private bool _isMultipleSelectionActive = false;
+        private bool _isCreateGroupActive = false;
 
         private PlayerInput _playerInput;
         private InputAction _selection;
         private InputAction _multipleSelection;
+        private InputAction _group;
+        private InputAction _createGroup;
 
         private Ray _startingRay;
         private Ray _endingRay;
@@ -32,6 +35,8 @@ namespace Plarium.Player
             _playerInput = GetComponent<PlayerInput>();
             _selection = _playerInput.actions["Selection"];
             _multipleSelection = _playerInput.actions["MultipleSelection"];
+            _group = _playerInput.actions["Group"];
+            _createGroup = _playerInput.actions["CreateGroup"];
         }
 
         private void OnEnable()
@@ -40,26 +45,33 @@ namespace Plarium.Player
             
             _selection.started += SelectionOnStarted;
             _selection.canceled += SelectionOnCanceled;
-            _multipleSelection.started += MultipleSelectionOnStarted;
-            _multipleSelection.canceled += MultipleSelectionOnCanceled;
+            _multipleSelection.started += MultipleSelectionOnToggled;
+            _multipleSelection.canceled += MultipleSelectionOnToggled;
+            _createGroup.started += CreateGroupOnToggled;
+            _createGroup.canceled += CreateGroupOnToggled;
+            _group.canceled += GroupOnCanceled;
+            
         }
-
+        
         private void OnDisable()
         {
             _selection.started -= SelectionOnStarted;
             _selection.canceled -= SelectionOnCanceled;
-            _multipleSelection.started -= MultipleSelectionOnStarted;
-            _multipleSelection.canceled -= MultipleSelectionOnCanceled;
+            _multipleSelection.started -= MultipleSelectionOnToggled;
+            _multipleSelection.canceled -= MultipleSelectionOnToggled;
+            _createGroup.started -= CreateGroupOnToggled;
+            _createGroup.canceled -= CreateGroupOnToggled;
+            _group.canceled -= GroupOnCanceled;
+        }
+        
+        private void CreateGroupOnToggled(InputAction.CallbackContext obj)
+        {
+            _isCreateGroupActive = !_isCreateGroupActive;
         }
 
-        private void MultipleSelectionOnCanceled(InputAction.CallbackContext obj)
+        private void MultipleSelectionOnToggled(InputAction.CallbackContext obj)
         {
-            _isMultipleSelectionActive = false;
-        }
-
-        private void MultipleSelectionOnStarted(InputAction.CallbackContext obj)
-        {
-            _isMultipleSelectionActive = true;
+            _isMultipleSelectionActive = !_isMultipleSelectionActive;
         }
 
         private void SelectionOnCanceled(InputAction.CallbackContext obj)
@@ -121,6 +133,22 @@ namespace Plarium.Player
             {
                 (secondCorner.z, firstCorner.z) = (firstCorner.z, secondCorner.z);
             }
+        }
+        
+        private void GroupOnCanceled(InputAction.CallbackContext context)
+        {
+            int groupNum = Mathf.RoundToInt(context.ReadValue<float>());
+            if (_isCreateGroupActive)
+            {
+                SelectionController.RewriteGroup(groupNum);
+                return;
+            } 
+            if (_isMultipleSelectionActive)
+            {
+                SelectionController.AddCharactersToGroup(groupNum);
+                return;
+            }
+            SelectionController.SelectGroup(groupNum);
         }
     }
 }
