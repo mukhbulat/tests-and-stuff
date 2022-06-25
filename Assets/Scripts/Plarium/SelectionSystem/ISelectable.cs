@@ -4,6 +4,7 @@ namespace Plarium.SelectionSystem
 {
     public interface ISelectable
     {
-        public void Select(PlayerCharacter selectingPlayer);
+        public Team Affinity { get; }
+        public SelectableData SelectableData { get; }
     }
 }
