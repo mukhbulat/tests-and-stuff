@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Plarium.Player
+namespace Plarium.SelectionSystem
 {
     [CreateAssetMenu(menuName = "Plarium/Team")]
     public class Team : ScriptableObject

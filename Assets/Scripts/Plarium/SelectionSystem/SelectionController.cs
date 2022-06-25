@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Plarium.Player;
 
 namespace Plarium.SelectionSystem
 {
@@ -23,6 +22,30 @@ namespace Plarium.SelectionSystem
                     SelectedCharacters.Add(selectable);
                 }
             }
+        }
+
+        private List<ISelectable> CheckCharactersByType(List<ISelectable> characters)
+        {
+            if (characters.Count == 0) return null;
+            var charactersOfOneType = new List<ISelectable>();
+            var bestType = characters[0].SelectableData.Type.TypePriority;
+            foreach (var selectable in characters)
+            {
+                if (selectable.SelectableData.Type.TypePriority < bestType)
+                {
+                    bestType = selectable.SelectableData.Type.TypePriority;
+                }
+            }
+
+            foreach (var selectable in characters)
+            {
+                if (selectable.SelectableData.Type.TypePriority == bestType)
+                {
+                    charactersOfOneType.Add(selectable);
+                }
+            }
+
+            return charactersOfOneType;
         }
     }
 }

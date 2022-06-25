@@ -7,6 +7,8 @@ namespace Plarium.SelectionSystem
     public class SelectableType : ScriptableObject
     {
         public string TypeName;
-        public List<SelectableData> SelectablesPriority;
+        public int TypePriority;
+        // Selectables of this type sorted by priority from the best to worst.
+        public List<SelectableData> SelectablesByPriority;
     }
 }
