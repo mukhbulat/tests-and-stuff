@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+using SkyMan.Inputs;
+using SkyMan.Interpreters;
 using UnityEngine;
 
-namespace SkyMan
+namespace SkyMan.View
 {
     public class Ball : MonoBehaviour
     {

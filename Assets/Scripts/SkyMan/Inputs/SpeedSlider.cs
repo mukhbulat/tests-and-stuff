@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using SkyMan.Interpreters;
+using UnityEngine;
 
-namespace SkyMan
+namespace SkyMan.Inputs
 {
     public class SpeedSlider : MonoBehaviour
     {

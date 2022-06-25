@@ -1,7 +1,8 @@
-﻿using System;
+﻿using SkyMan.Inputs;
+using SkyMan.Interpreters;
 using UnityEngine;
 
-namespace SkyMan
+namespace SkyMan.View
 {
     public class LineDraw : MonoBehaviour
     {
@@ -29,6 +30,7 @@ namespace SkyMan
 
         private void OnNewPositionAdded()
         {
+            // On rapid clicks it bugs and lines come out with the same position of starting and ending point.
             CreateLine(_lastPoint, _positionInterpreter.CurrentTargetPosition);
             _lastPoint = _positionInterpreter.CurrentTargetPosition;
         }

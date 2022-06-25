@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SkyMan
+namespace SkyMan.Interpreters
 {
     public class SpeedInterpreter : ISpeedInterpreter
     {

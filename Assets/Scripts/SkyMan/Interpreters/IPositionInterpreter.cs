@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace SkyMan
+namespace SkyMan.Interpreters
 {
     public interface IPositionInterpreter
     {

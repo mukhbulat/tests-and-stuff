@@ -1,8 +1,8 @@
-﻿using System;
+﻿using SkyMan.Interpreters;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace SkyMan
+namespace SkyMan.Inputs
 {
     [RequireComponent(typeof(PlayerInput))]
     [AddComponentMenu("SkyMan/Player")]

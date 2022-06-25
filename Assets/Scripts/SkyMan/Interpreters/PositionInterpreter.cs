@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SkyMan
+namespace SkyMan.Interpreters
 {
     public class PositionInterpreter : IPositionInterpreter
     {
