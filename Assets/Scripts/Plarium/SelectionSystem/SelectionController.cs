@@ -5,6 +5,7 @@ namespace Plarium.SelectionSystem
     public class SelectionController
     {
         public List<ISelectable> SelectedCharacters { get; private set; }
+        
 
         private Team _playerAffinity;
 
@@ -13,14 +14,48 @@ namespace Plarium.SelectionSystem
             _playerAffinity = playerAffinity;
         }
 
-        public void AddCharactersToSelected(List<ISelectable> characters)
+        public void AddCharactersToSelected(List<ISelectable> characters, bool isMultipleSelection)
         {
-            foreach (var selectable in characters)
+            if (characters.Count == 0)
             {
-                if (selectable.Affinity == _playerAffinity)
+                if (isMultipleSelection)
                 {
-                    SelectedCharacters.Add(selectable);
+                    return;
                 }
+                else
+                {
+                    SelectedCharacters.Clear();
+                }
+            }
+            var sortedCharacters = CheckCharactersByType(characters);
+            if (isMultipleSelection)
+            {
+                if (SelectedCharacters.Count == 0)
+                {
+                    SelectedCharacters.AddRange(sortedCharacters);
+                    return;
+                }
+
+                if (sortedCharacters[0].SelectableData.Type.TypePriority <
+                    SelectedCharacters[0].SelectableData.Type.TypePriority)
+                {
+                    SelectedCharacters.Clear();
+                    SelectedCharacters.AddRange(sortedCharacters);
+                }
+                else if (sortedCharacters[0].SelectableData.Type.TypePriority >
+                         SelectedCharacters[0].SelectableData.Type.TypePriority)
+                {
+                    return;
+                }
+                else
+                {
+                    SelectedCharacters.AddRange(sortedCharacters);
+                }
+            }
+            else
+            {
+                SelectedCharacters.Clear();
+                SelectedCharacters.AddRange(sortedCharacters);
             }
         }
 
@@ -47,5 +82,7 @@ namespace Plarium.SelectionSystem
 
             return charactersOfOneType;
         }
+        
+        
     }
 }

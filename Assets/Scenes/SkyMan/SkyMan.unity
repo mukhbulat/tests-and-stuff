@@ -652,7 +652,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 4b947785608a6a848a30a7f6e0a1b7ee, type: 2}
-  lineWidth: 0.1
+  lineWidth: 0.05
 --- !u!4 &590824245
 Transform:
   m_ObjectHideFlags: 0
