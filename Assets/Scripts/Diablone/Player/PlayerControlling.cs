@@ -19,6 +19,7 @@ namespace Diablone.Player
             _mainCamera = Camera.main;
             _playerCharacter = GameObject.FindGameObjectWithTag("Player");
             _playerMovable = _playerCharacter.GetComponentInChildren<IMovable>();
+            
             if (_playerCharacter == null)
             {
                 Debug.Log("Player Character is not found.");
