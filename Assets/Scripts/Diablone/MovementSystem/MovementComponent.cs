@@ -7,11 +7,13 @@ namespace Diablone.MovementSystem
     {
         [SerializeField] private CharacterController _characterController;
         [SerializeField] private Animator _animator;
+        [SerializeField] private float _minDistance = 0.12f;
         [SerializeField] private float _moveSpeed = 5f;
         [SerializeField] private float _gravity = 10f;
         [SerializeField] private AudioSource _footstepAudio;
-        [SerializeField] private float _pitchLowest = 0.9f;
-        [SerializeField] private float _pitchHighest = 1.2f;
+        [SerializeField] private float _pitchLowest = 2.9f;
+        [SerializeField] private float _pitchHighest = 3.2f;
+        
         private Coroutine _moving;
         
         private static readonly int IsMoving = Animator.StringToHash("IsMoving");
@@ -30,32 +32,45 @@ namespace Diablone.MovementSystem
 
         private IEnumerator MovingToTarget(Vector3 target)
         {
-            while ((transform.position - target).magnitude > 0.1f)
+            while ((transform.position - target).magnitude > _minDistance)
             {
                 var velocity = (target - transform.position).normalized * _moveSpeed;
-                transform.parent.LookAt(velocity, Vector3.up);
+                
+                RotationHandle(velocity);
                 
                 VerticalMovement(ref velocity);
                 _characterController.Move(velocity * Time.deltaTime);
                 
-                AudioWork();
-                AnimatorWork(true);
+                AudioHandle(true);
+                AnimatorHandle(true);
                 
                 yield return null;
             }
             
-            AnimatorWork(false);
+            AudioHandle(false);
+            AnimatorHandle(false);
         }
 
-        private void AudioWork()
+        private void RotationHandle(Vector3 velocity)
         {
+            velocity.y = transform.parent.position.y;
+            transform.parent.LookAt(velocity);
+        }
+
+        private void AudioHandle(bool isMoving)
+        {
+            if (!isMoving)
+            {
+                _footstepAudio.Stop();
+                return;
+            }
             if (_footstepAudio.isPlaying) return;
             
             _footstepAudio.pitch = Random.Range(_pitchLowest, _pitchHighest);
             _footstepAudio.Play();
         }
 
-        private void AnimatorWork(bool isMoving)
+        private void AnimatorHandle(bool isMoving)
         {
             _animator.SetBool(IsMoving, isMoving);
         }
@@ -78,7 +93,7 @@ namespace Diablone.MovementSystem
             if (_moving != null)
             {
                 StopCoroutine(_moving);
-                AnimatorWork(false);
+                AnimatorHandle(false);
             }
         }
 
