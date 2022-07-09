@@ -33,8 +33,10 @@ namespace Diablone.MovementSystem
             while ((transform.position - target).magnitude > 0.1f)
             {
                 var velocity = (target - transform.position).normalized * _moveSpeed;
+                transform.parent.LookAt(velocity, Vector3.up);
+                
                 VerticalMovement(ref velocity);
-                _characterController.Move(velocity);
+                _characterController.Move(velocity * Time.deltaTime);
                 
                 AudioWork();
                 AnimatorWork(true);

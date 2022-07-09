@@ -1,0 +1,51 @@
+{
+    "name": "Player Inputs",
+    "maps": [
+        {
+            "name": "Standard",
+            "id": "3a661d2f-9cb2-4f03-9fd7-f45723672aea",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Button",
+                    "id": "77437efc-0a16-4324-ada3-b8ee406f8a33",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f3e58214-f844-4d98-b598-65bffce6c75c",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KBM",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "KBM",
+            "bindingGroup": "KBM",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}
